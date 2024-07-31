@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-
+import 'package:login_page/login/server/signin_service.dart';
 class Login extends StatefulWidget{
   const Login({Key? key}) : super(key: key);
 
@@ -17,6 +17,26 @@ class _LoginState extends State<Login>{
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
     final _formKey = GlobalKey<FormState>();
+    final AuthSigninService authSigninService = AuthSigninService();
+
+   
+
+    @override
+    void dispose(){
+      super.dispose();
+      emailController.dispose();
+      passwordController.dispose();
+      }
+
+    void SigninUser(){
+      authSigninService.SigninUser(
+        context: context, 
+        email: emailController.text, 
+        password: passwordController.text
+        );
+    
+    }
+    
 
     return Scaffold(
       body: Form(
@@ -78,6 +98,8 @@ class _LoginState extends State<Login>{
                 onPressed: (){
                   if (_formKey.currentState!.validate()) {
                       // Perform signup action
+                      SigninUser();
+                    
                     }
                 },
                 style: ElevatedButton.styleFrom(

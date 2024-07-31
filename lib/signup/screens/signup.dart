@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login_page/login/screens/login.dart';
+import 'package:login_page/signup/service/signup_service.dart';
 // import 'package:flutter/widgets.dart';
 
 class Signup extends StatefulWidget {
@@ -14,6 +15,24 @@ class _SignupState extends State<Signup> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController comfirmpasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final AuthSignupService authService = AuthSignupService();
+
+  @override
+  void dispose(){
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    comfirmpasswordController.dispose();
+  }
+
+  void SignupUser(){
+    authService.signupUser(
+      context: context, 
+      email: emailController.text, 
+      password: passwordController.text, 
+      comfirmPassword: comfirmpasswordController.text
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +137,8 @@ class _SignupState extends State<Signup> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Perform signup action
+                      SignupUser();
+                   
                     }
                   },
                   style: ElevatedButton.styleFrom(

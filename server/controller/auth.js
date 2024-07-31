@@ -1,6 +1,8 @@
-const express = require('express');
-const bycrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const express = require("express");
+const bcrypt = require("bcrypt");
+// const bcrypt = require('bcrypt');
+
+const jwt = require("jsonwebtoken");
 const User = require('../models/user');
 const authcheck = require('../middelewares/authcheck');
 
@@ -14,7 +16,7 @@ authController.post('/register',async (req,res)=>{
         if(existingUser){
             return res.status(400).json({message:"User already exists"});
         }
-        hashedPassword = await bycrypt.hash(password,7);
+        hashedPassword = await bcrypt.hash(password,7);
         const user = new User({
             email,
             password:hashedPassword,
@@ -27,7 +29,7 @@ authController.post('/register',async (req,res)=>{
     } catch (e) {
         res.status(500).json({error:e.message});
     }
-})
+});
 
 authController.post('/login',async (req,res)=>{
     try {
@@ -35,7 +37,7 @@ authController.post('/login',async (req,res)=>{
         if(!emailNotExists){
             return res.status(400).json({message:"User does not exist"});
         }
-        const InvalidPassword = await bycrypt.compare(password,emailNotExists.password);
+        const InvalidPassword = await bcrypt.compare(password,emailNotExists.password);
         if(!InvalidPassword){
             return res.status(400).json({message:"Invalid Password"});
         }

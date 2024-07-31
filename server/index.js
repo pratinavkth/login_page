@@ -8,6 +8,10 @@ const port = 3000;
 // app.get('/',(req,res)=>{
 //     res.send('Hello World');
 // });
+const authController = require('./controller/auth');
+
+app.use(express.json());
+app.use(authController);
 
 mongoose.connect(DB).then(()=>{
     console.log("Connected to the database");
