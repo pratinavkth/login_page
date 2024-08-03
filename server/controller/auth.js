@@ -8,19 +8,21 @@ const authcheck = require('../middelewares/authcheck');
 
 const authController = express.Router();
 
-authController.post('/register',async (req,res)=>{
+authController.post('/api/signup',async (req,res)=>{
     try {
         const{email,password,comfirmpassword}= req.body;
+
+        console.log(req.body);
 
         const existingUser = await User.findOne({email});
         if(existingUser){
             return res.status(400).json({message:"User already exists"});
         }
         hashedPassword = await bcrypt.hash(password,7);
-        const user = new User({
+        let user = new User({
             email,
             password:hashedPassword,
-            comfirmpassword:hashedPassword,
+            confirmpassword:hashedPassword,
         });
         user = await user.save();
         res.json(user);
@@ -31,8 +33,10 @@ authController.post('/register',async (req,res)=>{
     }
 });
 
-authController.post('/login',async (req,res)=>{
+authController.post('/api/signin',async (req,res)=>{
     try {
+        const{email,password}= req.body;
+        console.log(req.body);
         const emailNotExists = await User.findOne({email})
         if(!emailNotExists){
             return res.status(400).json({message:"User does not exist"});
@@ -41,9 +45,13 @@ authController.post('/login',async (req,res)=>{
         if(!InvalidPassword){
             return res.status(400).json({message:"Invalid Password"});
         }
+        const token = jwt.sign({id:emailNotExists._id},"passwordkey");
+        res.json({token,user:{...user._doc}});
+        // id:emailNotExists._id,email:emailNotExists.email,
+        // console.log(emailNotExists);
         
     } catch (e) {
-        
+        res.status(500).json({error:e.message});
     }
 })
 
@@ -64,7 +72,7 @@ authController.post('/tokenisvalid',async (req,res)=>{
 
 
     } catch (e) {
-        
+        res.status(500).json({error:e.message});
     }
 
 })

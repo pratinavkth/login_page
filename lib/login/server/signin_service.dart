@@ -18,23 +18,38 @@ class AuthSigninService{
     required String password,
   }) async {
     try {
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      
       User user = User(
         email: email, 
         password: password, 
-        confirmPassword: '');
+        confirmPassword: '',
+        token: '',
+        id: ''
+      
+        );
+        
 
         http.Response res = await http.post(Uri.parse(
           '$uri/api/signin'),
           body: user.toJson(),
-          headers: <String,String>{
+          headers:
+          <String,String>{
             'Content-Type':'application/json; charset=UTF-8'
           });
           if(res.statusCode == 200){
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString('user', res.body);
+            userProvider.setUser(res.body);
+            prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
+            
             const SnackBar(content: Text('Signin Sucessfully'),);
-            Navigator.pushReplacement(context,
-         MaterialPageRoute(builder: (context)=> const Homescreen()));
+            Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (context)=> const Homescreen(),),
+            (route) => false,
+            );
+            
+         
+
           }
           else{
             ScaffoldMessenger.of(context).showSnackBar(

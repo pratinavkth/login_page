@@ -1,1 +1,1 @@
-String uri = 'http://localhost:3000';
+String uri = 'http://192.168.130.58:3000';

@@ -20,9 +20,15 @@ class AuthSignupService{
       User user= User(
         email: email,
         password: password,
-        confirmPassword: comfirmPassword
+        confirmPassword: comfirmPassword,
+        token: '',
+        id: '',
+      
+
       );
+       print(uri);
       http.Response res = await http.post(
+       
         Uri.parse('$uri/api/signup'),
         body: user.toJson(),
         headers: <String,String>{

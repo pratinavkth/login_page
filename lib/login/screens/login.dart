@@ -22,11 +22,11 @@ class _LoginState extends State<Login>{
    
 
     @override
-    void dispose(){
-      super.dispose();
-      emailController.dispose();
-      passwordController.dispose();
-      }
+    // void dispose(){
+    //   super.dispose();
+    //   emailController.dispose();
+    //   passwordController.dispose();
+    //   }
 
     void SigninUser(){
       authSigninService.SigninUser(

@@ -1,20 +1,28 @@
 import 'dart:convert';
 class User{
+  final String id;
   final String email;
   final String password;
   final String confirmPassword;
+  final String token;
 
   User({
     required this.email,
     required this.password,
-    required this.confirmPassword
+    required this.confirmPassword,
+    required this.token,
+    required this.id
   });
 
   Map<String ,dynamic>toMap(){
     return {
       'email':email,
       'password':password,
-      'confirmPassword':confirmPassword
+      'confirmPassword':confirmPassword,
+      'token':token,
+      'id':id
+    
+    
     };
   }
 
@@ -22,7 +30,11 @@ class User{
     return User(
       email:map['email'] ?? '', 
       password: map['password'] ?? '', 
-      confirmPassword: map['confirmPassword'] ?? ''
+      confirmPassword: map['confirmPassword'] ?? '',
+      token: map['token'] ?? '',
+      id: map['_id'] ?? ''
+    
+      
       );
     
   }
