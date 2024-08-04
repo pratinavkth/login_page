@@ -46,11 +46,12 @@ authController.post('/api/signin',async (req,res)=>{
             return res.status(400).json({message:"Invalid Password"});
         }
         const token = jwt.sign({id:emailNotExists._id},"passwordkey");
-        res.json({token,user:{...user._doc}});
+        res.json({token,user:{...emailNotExists._doc}});
         // id:emailNotExists._id,email:emailNotExists.email,
         // console.log(emailNotExists);
         
     } catch (e) {
+        console.error(e);
         res.status(500).json({error:e.message});
     }
 })
@@ -72,6 +73,7 @@ authController.post('/tokenisvalid',async (req,res)=>{
 
 
     } catch (e) {
+        console.error(e);
         res.status(500).json({error:e.message});
     }
 
