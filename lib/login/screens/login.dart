@@ -10,11 +10,7 @@ class Login extends StatefulWidget{
 }
 
 class _LoginState extends State<Login>{
-  @override
-  Widget build(BuildContext context){
-    final screenheight = MediaQuery.of(context).size.height;
-    final screenwidth = MediaQuery.of(context).size.width;
-    final TextEditingController emailController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
     final _formKey = GlobalKey<FormState>();
     final AuthSigninService authSigninService = AuthSigninService();
@@ -22,11 +18,11 @@ class _LoginState extends State<Login>{
    
 
     @override
-    // void dispose(){
-    //   super.dispose();
-    //   emailController.dispose();
-    //   passwordController.dispose();
-    //   }
+    void dispose(){
+      super.dispose();
+      emailController.dispose();
+      passwordController.dispose();
+      }
 
     void SigninUser(){
       authSigninService.SigninUser(
@@ -36,6 +32,11 @@ class _LoginState extends State<Login>{
         );
     
     }
+  @override
+  Widget build(BuildContext context){
+    final screenheight = MediaQuery.of(context).size.height;
+    final screenwidth = MediaQuery.of(context).size.width;
+    
     
 
     return Scaffold(
