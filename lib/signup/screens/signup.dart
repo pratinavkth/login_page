@@ -45,15 +45,10 @@ class _SignupState extends State<Signup> {
           key: _formKey,
           child: Column(
             children: [
-              Padding(
-                padding: EdgeInsets.only(top: screenheight * 0.1),
-                child: const Text(
-                  "Welcome to our App",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
+              
+              Padding(padding: EdgeInsets.only(top: screenheight*0.2),
+              child: Image.asset("assets/logo_noteit.png", height: screenheight*0.1, width: screenwidth*0.2,),
+             
               ),
               Padding(
                 padding: EdgeInsets.only(top: screenheight * 0.1),
@@ -65,11 +60,22 @@ class _SignupState extends State<Signup> {
                   ),
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.only(top: screenheight * 0.01),
+                child: const Text(
+                  "Welcome to our App",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+              
               SizedBox(
-                height: screenheight * 0.1,
+                height: screenheight * 0.05,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenwidth * 0.1),
+                padding: EdgeInsets.symmetric(horizontal: screenwidth * 0.1,),
                 child: TextFormField(
                   controller: emailController,
                   decoration: const InputDecoration(
@@ -132,7 +138,7 @@ class _SignupState extends State<Signup> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: screenheight * 0.1),
+                padding: EdgeInsets.only(top: screenheight * 0.05),
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {

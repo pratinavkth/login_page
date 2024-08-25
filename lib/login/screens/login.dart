@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:login_page/login/server/signin_service.dart';
 class Login extends StatefulWidget{
@@ -14,8 +13,6 @@ class _LoginState extends State<Login>{
     final TextEditingController passwordController = TextEditingController();
     final _formKey = GlobalKey<FormState>();
     final AuthSigninService authSigninService = AuthSigninService();
-
-   
 
     @override
     void dispose(){
@@ -37,24 +34,41 @@ class _LoginState extends State<Login>{
     final screenheight = MediaQuery.of(context).size.height;
     final screenwidth = MediaQuery.of(context).size.width;
     
-    
-
     return Scaffold(
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          child: Column(children: [
+          child: Column(
+            children: [
+            Padding(padding: EdgeInsets.only(top: screenheight*0.25),
+              child: Image.asset("assets/logo_noteit.png", 
+              height: screenheight*0.1, width: screenwidth*0.2,
+              ),
+             
+              ),
             Padding(
               padding: EdgeInsets.only(
-                top: screenheight*0.2),
-                child: const Text("Welcome to our App",
+                top: screenheight*0.05),
+                child: const Text("Welcome Back!!",
+          
                 style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 25,
                   fontWeight: FontWeight.w900,
                 ),
                 ),
             ),
-            SizedBox(height: screenheight*0.2,),
+            Padding(
+              padding: EdgeInsets.only(
+                top: screenheight*0.01),
+                child: const Text("Please Log in to continue",
+          
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+                ),
+            ),
+            SizedBox(height: screenheight*0.17,),
             // SizedBox(height: screenheight*0.15,),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: screenwidth*0.1),
@@ -94,7 +108,7 @@ class _LoginState extends State<Login>{
             ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: screenheight*0.01),
+              padding: EdgeInsets.only(top: screenheight*0.04),
               child: ElevatedButton(
                 onPressed: (){
                   if (_formKey.currentState!.validate()) {

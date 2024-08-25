@@ -9,8 +9,10 @@ const port = 3000;
 //     res.send('Hello World');
 // });
 const authController = require('./controller/auth');
+const noteCreate = require('./controller/note_create');
 
 app.use(express.json());
+app.use(noteCreate);
 app.use(authController);
 
 mongoose.connect(DB).then(()=>{
