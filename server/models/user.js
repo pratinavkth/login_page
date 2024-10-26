@@ -33,9 +33,13 @@ const userSchema = mongoose.Schema({
                 value === this.password;
             }
         }
-    }
+    },
+    notes:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'NewNote'
+    }],
 
-})
+});
 
 const User = mongoose.model('User',userSchema);
 module.exports = User;

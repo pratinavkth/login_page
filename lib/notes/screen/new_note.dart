@@ -1,55 +1,110 @@
+// import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
-class NewNote extends StatefulWidget{
-  const NewNote({Key? key}):super(key: key);
+import 'package:login_page/notes/server/new_note_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+
+class NewNote extends StatefulWidget {
+  const NewNote({Key? key}) : super(key: key);
 
   @override
-  State<NewNote> createState()=> _NewNoteState();
+  State<NewNote> createState() => _NewNoteState();
 }
 
-class _NewNoteState extends State<NewNote>{
-  @override
-  Widget build(BuildContext context){
-    final TextEditingController _titleController = TextEditingController();
-    final TextEditingController _contentController = TextEditingController();
-    return Scaffold(
+class _NewNoteState extends State<NewNote> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    _titleController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _contentController.dispose();
+    super.dispose();
+  }
+
+  Future <void> saveNote() async{
+    final String title = _titleController.text;
+    final String content = _contentController.text;
+    final String date = DateTime.now().toString();
+
+    SharedPreferences prefs =await SharedPreferences.getInstance();
+    String? userId =prefs.getString('userId');
+
+    if (userId == null){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('user not logged in!'))
+      );
+    }
+
+
+    if(title.isNotEmpty && content.isNotEmpty){
+      await NoteService().addNote(context: context, title: title, content: content, Date: date,);
+      Navigator.pop(context);
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Title and content cannot be empty'),
+        )
+      );
+    
+    }
+  }
+      
+      
+  // }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
       body: Container(
         padding: const EdgeInsets.only(top: 80, left: 20, right: 20),
-        
-        
         child: Column(
           children: [
             if (_titleController.text.isEmpty)
-              ElevatedButton(onPressed:(){
-                Navigator.pop(context);
-              
-              }, 
-              child: Icon(Icons.close),)
-              else
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(Icons.close),
+              )
+            else
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextButton(onPressed: (){},child: Icon(Icons.more_horiz),),
-                  ElevatedButton(onPressed: (){},child: 
-                  
-                  const Text("Done",
+                  TextButton(
+                    onPressed: () {},
+                    child: Icon(Icons.more_horiz),
                   ),
-                  
+                  TextButton(
+                    onPressed: (){
+                      saveNote();
+                      // Navigator.pop(context);
+                   
+                    }
+                    // saveNote
+                   ,
+                    child: const Text(
+                      "Done",
+                    ),
                   )
-                  
-
                 ],
-              )
-            ,
+              ),
             TextField(
               controller: _titleController,
               decoration: const InputDecoration(
                 border: InputBorder.none,
-                
                 hintText: 'Untitled',
               ),
             ),
-
             SingleChildScrollView(
               child: TextField(
                 controller: _contentController,
@@ -57,12 +112,12 @@ class _NewNoteState extends State<NewNote>{
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Tap here to continue...',
+                ),
               ),
-            ),
             ),
           ],
         ),
       ),
     );
   }
-}
+  }

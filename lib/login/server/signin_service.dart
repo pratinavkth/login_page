@@ -11,7 +11,7 @@ import 'package:login_page/homescreen/screen/homescreen.dart';
 
 
 
-class AuthSigninService{
+class AuthSigninService{ 
   void SigninUser({
     required BuildContext context,
     required String email,
@@ -35,7 +35,9 @@ class AuthSigninService{
           body: user.toJson(),
           headers:
           <String,String>{
-            'Content-Type':'application/json; charset=UTF-8'
+            'Content-Type':'application/json; charset=UTF-8',
+            // token: '',
+          
           });
           if(res.statusCode == 200){
             SharedPreferences prefs = await SharedPreferences.getInstance();

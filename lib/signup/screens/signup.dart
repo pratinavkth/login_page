@@ -99,6 +99,7 @@ class _SignupState extends State<Signup> {
                 padding: EdgeInsets.symmetric(horizontal: screenwidth * 0.1),
                 child: TextFormField(
                   controller: passwordController,
+                  obscureText: true,
                   decoration: const InputDecoration(
                     hintText: "Password",
                     border: OutlineInputBorder(
@@ -120,6 +121,7 @@ class _SignupState extends State<Signup> {
                 padding: EdgeInsets.symmetric(horizontal: screenwidth * 0.1),
                 child: TextFormField(
                   controller: comfirmpasswordController,
+                  obscureText: true,
                   decoration: const InputDecoration(
                     hintText: "Comfirm Password",
                     border: OutlineInputBorder(
