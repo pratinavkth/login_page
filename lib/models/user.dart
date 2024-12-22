@@ -14,7 +14,7 @@ class User{
     required this.id
   });
 
-  Map<String ,dynamic>toMap(){
+  Map<String,dynamic>toMap(){
     return {
       'email':email,
       'password':password,

@@ -44,7 +44,7 @@ class _AudioState extends State<Audio> {
       body:Column(
         children: [
           Padding(
-            padding:EdgeInsets.only(top: screenHeight*0.05, left: screenWidth*0.40) ,
+            padding:EdgeInsets.only(top: screenHeight*0.05, left: screenWidth*0.25) ,
            
             child: IconButton(
               onPressed: () {

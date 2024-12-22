@@ -18,12 +18,11 @@ class NoteService{
     try{
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('x-auth-token');
-      String? userId = prefs.getString('userId');
+          //  String? token = prefs.getString('x-auth-token');
+      String? userId = prefs.getString('user');
+      print(token);
 
-      if(token !=null && token.isNotEmpty){
-        
-        
-
+      if(token !=null ){
       CreateNotes createNote = CreateNotes(
         title: title,
         content: content,
@@ -38,9 +37,8 @@ class NoteService{
           body: createNote.toJson(),
           headers: <String,String>{
             'Content-Type':'application/json; charset=UTF-8',
-            'x-auth-token': token
-          ,
-         
+            'x-auth-token': token,
+          
           }
         );
 

@@ -38,7 +38,9 @@ class _NewNoteState extends State<NewNote> {
     final String date = DateTime.now().toString();
 
     SharedPreferences prefs =await SharedPreferences.getInstance();
-    String? userId =prefs.getString('userId');
+    String? userId =prefs.getString('user');
+    String token = prefs.getString('x-auth-token')!;
+    // Srting? token =prefs.getString('x-auth-token');
 
     if (userId == null){
       ScaffoldMessenger.of(context).showSnackBar(
@@ -60,8 +62,6 @@ class _NewNoteState extends State<NewNote> {
     }
   }
       
-      
-  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,9 +89,7 @@ class _NewNoteState extends State<NewNote> {
                       saveNote();
                       // Navigator.pop(context);
                    
-                    }
-                    // saveNote
-                   ,
+                    }, // saveNote
                     child: const Text(
                       "Done",
                     ),

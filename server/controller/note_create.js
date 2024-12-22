@@ -55,11 +55,9 @@ noteCreate.get('/api/note_search',authcheck, async(req,res)=>{
         res.status(500).json({error:e.message});
     }
 })
-noteCreate.get('/api/notes', authcheck,async(req,res)=>{
+noteCreate.post('/api/notes', authcheck,async(req,res)=>{
     try{
         const userId = req.user;
-        // const notes = await NewNote.findOne({userId});
-        // const allnotes = await notes.find(); 
         const allnotes = await NewNote.find({ userId });
         if(!allnotes){
             return res.status(400).json({message:"Note does not exist"});
@@ -72,6 +70,24 @@ noteCreate.get('/api/notes', authcheck,async(req,res)=>{
         res.status(500).json({error:e.message});
     }
 });
+
+
+noteCreate.put('/api/noteupdate',async(req,res)=>{
+    try{
+    const noteId = req.user;
+
+    }
+    catch(e){
+    print(e);
+    }
+    // const noteId = 
+})
+
+noteCreate.delete('/api/deletenote', async(req,res)=>{
+    const userId = req.user;
+})
+
+
 
 noteCreate.get('/test-middleware', authcheck, (req, res) => {
     res.json({ message: "Middleware is working!", userId: req.user });

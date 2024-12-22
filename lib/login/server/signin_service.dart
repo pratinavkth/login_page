@@ -1,6 +1,8 @@
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:login_page/global_variable.dart';
+import 'package:login_page/login/screens/login.dart';
 import 'package:login_page/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +45,11 @@ class AuthSigninService{
             SharedPreferences prefs = await SharedPreferences.getInstance();
             userProvider.setUser(res.body);
             prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
+            // prefs.setString('user', jsonDecode(res.body)['user.id']);
+            prefs.setString('user', jsonDecode(res.body)['user']['_id']);
+
+            
+
             
             const SnackBar(content: Text('Signin Sucessfully'),);
             Navigator.pushAndRemoveUntil(context,
@@ -101,5 +108,23 @@ class AuthSigninService{
       SnackBar(content: Text(e.toString()));
     }
   }
+
+  
+      Future<bool> loggedInStatus()async{
+        try{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String?token = prefs.getString('x-auth-token');
+      return token != null;
+      }
+      
+    
+    catch(e){
+    SnackBar(content: Text(e.toString()));
+    return false;
+    }
+
+
+  }
+
 
 }
