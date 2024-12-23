@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:login_page/notes/models/create_notes.dart';
+import 'package:login_page/notes/screen/edit_screen.dart';
 import 'package:login_page/notes/screen/new_note.dart';
 import 'package:login_page/constants/searchbar.dart';
 import 'package:login_page/notes/server/notes_fetching.dart';
@@ -72,7 +73,6 @@ class _NotesState extends State<Notes> {
               );
             } else if(snapshot.hasData){
               List<FetchNotes> notes = snapshot.data!;
-
               return MasonryGridView.builder(
                 gridDelegate:
                     const SliverSimpleGridDelegateWithFixedCrossAxisCount(
@@ -81,16 +81,23 @@ class _NotesState extends State<Notes> {
                 itemCount: notes.length,
                 itemBuilder: (context, index) {
                   return Card(
-                    child: Column(
-                      children: [
-                        Text(
-                          notes[index].title,
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500),
-                        ),
-                        Text(notes[index].content),
-                        Text(notes[index].date),
-                      ],
+
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const EditScreen()));
+                      },
+                      child: Column(
+                        children: [
+
+                          Text(
+                            notes[index].title,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w500),
+                          ),
+                          Text(notes[index].content),
+                          Text(notes[index].date),
+                        ],
+                      ),
                     ),
                   );
                 },

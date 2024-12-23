@@ -98,10 +98,16 @@ class _NewNoteState extends State<NewNote> {
               ),
             TextField(
               controller: _titleController,
+              maxLines: null,
               decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Untitled',
               ),
+            ),
+            const Divider(
+              height: 2,
+              thickness: 2,
+              color: Colors.black,
             ),
             SingleChildScrollView(
               child: TextField(

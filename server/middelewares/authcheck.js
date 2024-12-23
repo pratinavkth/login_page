@@ -6,7 +6,7 @@ const authcheck = async (req,res,next)=>{
     try {
         console.log("Authcheck Intercepted");
         const token = req.header('x-auth-token');
-        console.log("Token:", token);
+        // console.log("Token:", token);
         
         if(!token){
             return res.status(401).json({message:"No token , authorization denied"});

@@ -69,23 +69,77 @@ noteCreate.post('/api/notes', authcheck,async(req,res)=>{
     catch(e){
         res.status(500).json({error:e.message});
     }
-});
+}
+);
 
 
-noteCreate.put('/api/noteupdate',async(req,res)=>{
+noteCreate.put('/api/noteupdate',authcheck,async(req,res)=>{
     try{
-    const noteId = req.user;
+        // const userId = req.user;
+        console.log("update note intercepted");
+        const noteId = req.body.noteId;
+        
+        const {title,content} = req.body;
+        console.log(noteId);
 
+        if(!noteId){
+            res.status(400).json({message:"note is not found"})
+        }
+
+        const note = await NewNote.findById(noteId);
+        console.log("old note");
+        console.log(note);
+        if(!note){
+            return res.status(400).json({message:"note with this id is not found"});
+        }
+        if(title)note.title = title;
+        if(content) note.content = content;
+        note.Date = new Date();
+        console.log(note);
+        // const updatedNote = 
+        await note.save();
+        
+
+        return res.status(200).json({
+            message:"Note updated Sucesfully",
+            // note: updatedNote,
+        });
     }
     catch(e){
-    print(e);
+    // print(e);
+    console.error("Error updating note",e);
+    return res.status(500).json({
+        message:"Internal server Error"
+    });
     }
     // const noteId = 
-})
+});
 
-noteCreate.delete('/api/deletenote', async(req,res)=>{
-    const userId = req.user;
-})
+noteCreate.delete('/api/deletenote', authcheck,async(req,res)=>{
+    // const userId = req.user;
+    try{
+    const noteId = req.body.noteId;
+    if(!noteId){
+        res.status(400).json({message:"note is not found"})
+    }
+    const deletenote = await NewNote.findById(noteId);
+    // await NewNote.deleteOne(noteId);
+    if(!deletenote){
+        return res.status(400).json({message:"noteid is not found"})
+    }
+    
+    await deletenote.deleteOne();
+    return res.status(200).json({ message: "Note deleted successfully" });
+
+}
+catch(e){
+    console.error("Error deleting note:", e);
+        return res.status(500).json({ message: "Internal server error" });
+   
+
+}
+
+});
 
 
 

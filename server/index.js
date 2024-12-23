@@ -27,13 +27,5 @@ mongoose.connect(DB).then(()=>{
     console.log(e);
 
 });
-
-// mongoose.connect(DB).then(()=>{
-//     console.log("connected to database");
-// }).catch(e=>{
-//     console.log(e);
-// });
-
-
 app.listen(port,()=>{
     console.log(`Server is running on port ${port}`);});
