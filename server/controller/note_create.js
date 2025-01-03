@@ -9,7 +9,6 @@ noteCreate.use(authcheck);
 
 noteCreate.post('/api/note_create',authcheck,async(req,res)=>{
     try {
-        
         const {title,content} = req.body;
         const userId = req.user;
         console.log(req.body);
@@ -25,7 +24,6 @@ noteCreate.post('/api/note_create',authcheck,async(req,res)=>{
             Date:new Date(),
         });
         note = await note.save();
-
         const user = await User.findById(userId);
         if (!user) {
             return res.status(400).json({ message: "User not found" });
@@ -35,12 +33,12 @@ noteCreate.post('/api/note_create',authcheck,async(req,res)=>{
         res.json(note);
         // console.log("User ID:", userId);
 
-    } catch (e) {
+    }catch (e) {
         res.status(500).json({error:e.message});
     }
 });
 
-noteCreate.get('/api/note_search',authcheck, async(req,res)=>{
+noteCreate.post('/api/note_search',authcheck, async(req,res)=>{
     try{
         const userId = req.user;
         const noteSearch = await NewNote.findOne({title:req.body.title,userId});
@@ -77,20 +75,20 @@ noteCreate.put('/api/noteupdate',authcheck,async(req,res)=>{
     try{
         // const userId = req.user;
         console.log("update note intercepted");
-        const noteId = req.body.noteId;
-        
-        const {title,content} = req.body;
+        // const noteId = req.body.noteId;
+        const {title,content,noteId} = req.body;
+        console.log("note id");
         console.log(noteId);
-
+        console.log(title);
+        console.log("noteid");
         if(!noteId){
             res.status(400).json({message:"note is not found"})
         }
-
         const note = await NewNote.findById(noteId);
         console.log("old note");
         console.log(note);
         if(!note){
-            return res.status(400).json({message:"note with this id is not found"});
+           return res.status(400).json({message:"note with this id is not found"});
         }
         if(title)note.title = title;
         if(content) note.content = content;
@@ -98,8 +96,6 @@ noteCreate.put('/api/noteupdate',authcheck,async(req,res)=>{
         console.log(note);
         // const updatedNote = 
         await note.save();
-        
-
         return res.status(200).json({
             message:"Note updated Sucesfully",
             // note: updatedNote,
@@ -107,10 +103,10 @@ noteCreate.put('/api/noteupdate',authcheck,async(req,res)=>{
     }
     catch(e){
     // print(e);
-    console.error("Error updating note",e);
-    return res.status(500).json({
-        message:"Internal server Error"
-    });
+    // console.error("Error updating note",e);
+    // return res.status(500).json({
+    //     message:"Internal server Error"
+    // });
     }
     // const noteId = 
 });
@@ -127,28 +123,15 @@ noteCreate.delete('/api/deletenote', authcheck,async(req,res)=>{
     if(!deletenote){
         return res.status(400).json({message:"noteid is not found"})
     }
-    
     await deletenote.deleteOne();
     return res.status(200).json({ message: "Note deleted successfully" });
-
 }
 catch(e){
     console.error("Error deleting note:", e);
         return res.status(500).json({ message: "Internal server error" });
-   
-
 }
-
 });
-
-
-
 noteCreate.get('/test-middleware', authcheck, (req, res) => {
     res.json({ message: "Middleware is working!", userId: req.user });
 });
-
-
-
-
-
 module.exports = noteCreate;

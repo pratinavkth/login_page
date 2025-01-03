@@ -1,8 +1,5 @@
-// import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 import 'package:login_page/global_variable.dart';
-// import 'package:login_page/global_variable.dart';
 import 'package:login_page/notes/models/create_notes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -34,37 +31,35 @@ class NotesFetching{
 
           
           headers: <String,String>{
-            // 'Content-Type':'application/json; charset=UTF-8',
             'x-auth-token':Token??'',
-
           },
           
           
           // body:json.encode(bodyres),
           // print(res.body);
         );
-        print(res.body);
-        print(res.statusCode);
+        // print(res.body);
+        // print(res.statusCode);
         if(res.statusCode == 200) {
           // const SnackBar(content: Text("notes fetched sucessfully"));
 
           var jsonData = json.decode(
               res.body); // This will be a Map<String, dynamic>
-          print(jsonData);
-          print(jsonData.runtimeType);
+          // print(jsonData);
+          // print(jsonData.runtimeType);
           var notesData = jsonData['allnotes'];
-          print(notesData.runtimeType);
-          print(notesData);// This will be the List<dynamic> of notes
+          // print(notesData.runtimeType);
+          // print(notesData);// This will be the List<dynamic> of notes
 
           if (notesData != null && notesData is List) {
-            print("notes data intercepted");
+            // print("notes data intercepted");
             List<FetchNotes> notes = notesData
                 .where((note) => note is Map<String , dynamic>)
                 .map<FetchNotes>(
               (note)=>FetchNotes.fromMap(note as Map<String,dynamic>)).toList();
                 // FetchNotes.fromMap(note)).toList();
 
-            print(notes);
+            // print(notes);
 
             return notes;
           } else {

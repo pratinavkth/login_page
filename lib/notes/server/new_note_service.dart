@@ -23,11 +23,12 @@ class NoteService{
       print(token);
 
       if(token !=null ){
-      CreateNotes createNote = CreateNotes(
+      Notes createNote = Notes(
         title: title,
         content: content,
         date: Date,
         userId:userId!,
+
         
         );
         print(createNote.toJson());

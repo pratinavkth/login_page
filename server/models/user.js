@@ -38,6 +38,18 @@ const userSchema = mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'NewNote'
     }],
+    audioFiles:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'AudioFile'
+        },
+    ],
+    expenses:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Expense',
+        },
+    ],
 
 });
 

@@ -1,10 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const dotnev = require('dotenv');
 // const mongoose = require('mongoose');
 
+dotnev.config();
 const app = express();
-const DB= "mongodb+srv://pratinavkothia123:OPMYweqiPCmbFw3W@cluster0.jfbv7vg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-const port = 3000;
+const DB= process.env.MOONGODBURL;
+const port = process.env.PORT;
 
 
 console.log("Received Request");
@@ -28,4 +30,4 @@ mongoose.connect(DB).then(()=>{
 
 });
 app.listen(port,()=>{
-    console.log(`Server is running on port ${port}`);});
+    console.log(`Server is running on port ${process.env.PORT}`);});

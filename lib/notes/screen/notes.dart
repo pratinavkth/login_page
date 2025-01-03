@@ -1,11 +1,11 @@
+
 import 'package:flutter/material.dart';
-// import 'package:flutter/flutter_straggered_grid_view.dart';
-// import 'package:flutter/';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:login_page/notes/models/create_notes.dart';
+import 'package:login_page/notes/screen/drawing.dart';
 import 'package:login_page/notes/screen/edit_screen.dart';
 import 'package:login_page/notes/screen/new_note.dart';
-import 'package:login_page/constants/searchbar.dart';
 import 'package:login_page/notes/server/notes_fetching.dart';
 
 class Notes extends StatefulWidget {
@@ -18,10 +18,13 @@ class Notes extends StatefulWidget {
 class _NotesState extends State<Notes> {
   late Future<List<FetchNotes>> futureNotes;
   final NotesFetching notesFetching = NotesFetching();
+      bool _isExpanded= false;
+
   @override
   void initState() {
     super.initState();
     futureNotes = notesFetching.getNotes(context: context);
+
   }
 
   @override
@@ -29,7 +32,7 @@ class _NotesState extends State<Notes> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     // final NotesFetching notesFetching = NotesFetching();
-
+    
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(screenHeight * 0.05),
@@ -81,22 +84,23 @@ class _NotesState extends State<Notes> {
                 itemCount: notes.length,
                 itemBuilder: (context, index) {
                   return Card(
-
                     child: InkWell(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const EditScreen()));
+                        print(notes[index].noteId);
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>EditScreen(noteId: notes[index].noteId,)));
                       },
-                      child: Column(
-                        children: [
-
-                          Text(
-                            notes[index].title,
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w500),
-                          ),
-                          Text(notes[index].content),
-                          Text(notes[index].date),
-                        ],
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              notes[index].title,
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w500),
+                            ),
+                            Text(notes[index].content),
+                            Text(notes[index].date),
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -105,18 +109,129 @@ class _NotesState extends State<Notes> {
             }
             else {
             return const Center(
-            child: Text('No notes Available why'),
+            child: Text('No notes Available'),
             );
             }
-          }),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const NewNote()));
-        },
-        child: const Icon(Icons.add),
-      ),
+          }
+          ),
+      floatingActionButton:Stack(
+        alignment: Alignment.bottomRight,
+        children: [
+          if(_isExpanded)
+          // Positioned.fill(child:
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _isExpanded=false;
+              });
+            },
+            child:Container(
+              color: Colors.black.withOpacity(0.5),
+              width: screenWidth,
+              height: screenHeight,
+
+            ) ,
+          ),
+    
+          Positioned(
+            bottom: 80,
+            right: 16,
+            child:AnimatedOpacity(
+              opacity: _isExpanded?1.0:0.0,
+              duration: Duration(milliseconds: 300),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  _buildOption(
+                    icon: Icons.note_add, 
+                  label: "Add note", 
+                  onTap:()=>_navigateToScreen(context,const NewNote())
+                  ),
+                  _buildOption(
+                    icon: Icons.draw_outlined,
+                   label: "draw", 
+                   onTap: ()=>_navigateToScreen(context,const Drawing())
+                   ),
+                ],
+              ),
+              ), 
+          ),
+          Positioned(
+            
+            child: FloatingActionButton(
+              backgroundColor: Colors.white,
+              onPressed: (){
+                setState(() {
+                  _isExpanded =! _isExpanded;
+                });
+              },
+              child: Icon(
+                _isExpanded? Icons.close :Icons.add,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          
+          
+        ],
+      )
+      // FloatingActionButton(
+      //   backgroundColor: Colors.white,
+      //   onPressed: () {
+      //     Navigator.push(context,
+      //         MaterialPageRoute(builder: (context) => const NewNote()));
+      //   },
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
+  Widget _buildOption({
+  required IconData icon,
+  required String label,
+  required VoidCallback onTap,
+
+}){
+  return GestureDetector(
+    onTap: (){
+      setState(() {
+          _isExpanded = false;
+        });
+        onTap();
+      
+    },
+    child: Row(
+      children: [
+        Container(
+          padding: EdgeInsets.all(8),
+          margin: EdgeInsets.only(bottom: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 4,
+                offset: Offset(0,2)
+
+
+
+              )
+            ]
+          ),
+          child: Icon(icon,color: Colors.black,),
+        ),
+        SizedBox(width: 8),
+          Text(label, style: TextStyle(color: Colors.white)),
+      ],
+    ),
+  );
 }
+ _navigateToScreen(BuildContext context, Widget screen) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => screen),
+    );
+  }
+
+}
+
