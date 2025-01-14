@@ -31,6 +31,7 @@ noteCreate.post('/api/note_create',authcheck,async(req,res)=>{
         user.notes.push(note._id);
         await user.save();
         res.json(note);
+        
         // console.log("User ID:", userId);
 
     }catch (e) {

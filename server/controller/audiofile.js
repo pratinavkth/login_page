@@ -9,6 +9,7 @@ const User = require('../models/user');
 const Audio =  require('../models/audio_file_model');
 const authcheck = require('../middelewares/authcheck');
 
+
 dotenv.config();
 const AudioRouter = express.Router();
 
@@ -16,7 +17,7 @@ const Storage = multer.memoryStorage();
 const upload = multer({Storage});
 
 let bucket;
-const Dbname = "audioDB";
+const Dbname = "test";
 
 const mongoUri= process.env.MOONGODBURL;
 MongoClient.connect(mongoUri)
@@ -59,6 +60,27 @@ AudioRouter.post('/api/audiorecord',authcheck,upload.single('audio'),async(req,r
         res.status(500).send({e:"Internal server error"});
     }
 });
+
+
+AudioRouter.get('/api/getaudio',authcheck,async(req,res)=>{
+    try{
+        const fileId = new ObjectId(req.params.id);
+        const downloadStream = bucket.openDownloadStream(fileId);
+
+        res.set('Content-Type', 'audio/mpeg');
+
+        downloadStream.pipe(res);
+
+        downloadStream.on('error', (err) => {
+            console.error('Error retrieving audio:', err);
+            res.status(404).send({ error: 'Audio not found' });
+        });
+
+    }
+    catch(e){
+        res.status(500).send({e:'failed to download file'})
+    }
+})
 
 module.exports = AudioRouter;
 

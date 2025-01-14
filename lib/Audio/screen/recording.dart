@@ -1,4 +1,8 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:record/record.dart';
+// import 'package:';
 
 class Recording extends StatefulWidget {
   const Recording({Key? key}) : super(key: key);
@@ -8,6 +12,10 @@ class Recording extends StatefulWidget {
 }
 
 class _RecordingState extends State<Recording> {
+  final AudioRecorder audioRecorder = AudioRecorder();
+  bool isRecording = false;
+  String? audioPath;
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -58,7 +66,24 @@ class _RecordingState extends State<Recording> {
           Padding(
             padding: EdgeInsets.only(top: screenHeight * 0.1),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () async{
+                if(isRecording){
+                  setState(() {
+                    isRecording =false;
+                  });
+                }
+                else{
+                  if(await audioRecorder.hasPermission()){
+                    final directory = await getApplicationDocumentsDirectory();
+                    audioPath= '${directory.path}/recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
+                    await audioRecorder.start(const RecordConfig(),path: audioPath!); 
+                    setState(() {
+                      isRecording =true; 
+                    });
+                  }
+                }
+
+              },
               style: TextButton.styleFrom(
                 // primary: Colors.white,
                 backgroundColor: Colors.black,
@@ -77,4 +102,13 @@ class _RecordingState extends State<Recording> {
       ),
     );
   }
+  Future<void> handleRecording(String filePath)async{
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if(connectivityResult == ConnectivityResult.none){
+      print('offline: File saved locally at $filePath');
+    }else{
+      // awai
+    }
+  }
+  
 }

@@ -18,12 +18,14 @@ const authController = require('./controller/auth');
 
 const noteCreate = require('./controller/note_create');
 const AudioRouter = require('./controller/audiofile');
+const expenseRouter = require('./controller/expense');
 
 app.use(express.json());
 
 app.use(authController);
 app.use(noteCreate);
 app.use(AudioRouter);
+app.use(expenseRouter);
 
 
 mongoose.connect(DB).then(()=>{

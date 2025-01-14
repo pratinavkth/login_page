@@ -12,8 +12,6 @@ class NoteService{
     required String title,
     required String content,
     required String Date,
-    
-
   })async{
     try{
       SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -44,7 +44,7 @@ class _AudioState extends State<Audio> {
       body:Column(
         children: [
           Padding(
-            padding:EdgeInsets.only(top: screenHeight*0.05, left: screenWidth*0.25) ,
+            padding:EdgeInsets.only(top: screenHeight*0.05, left: screenWidth*0.40,right: screenWidth*0.25,bottom: screenHeight*0.2) ,
            
             child: IconButton(
               onPressed: () {
@@ -56,8 +56,11 @@ class _AudioState extends State<Audio> {
             ),
             Container(
               child: SingleChildScrollView(
-                child: Column(children: [
+                child: Column(
+                  children: [
+                 ListView.builder(itemBuilder: (context,index){
                   
+                 }), 
 
                 ],),
                ),

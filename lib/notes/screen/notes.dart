@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:login_page/notes/models/create_notes.dart';
 import 'package:login_page/notes/screen/drawing.dart';
@@ -170,19 +168,9 @@ class _NotesState extends State<Notes> {
                 color: Colors.black,
               ),
             ),
-          ),
-          
-          
+          ),   
         ],
       )
-      // FloatingActionButton(
-      //   backgroundColor: Colors.white,
-      //   onPressed: () {
-      //     Navigator.push(context,
-      //         MaterialPageRoute(builder: (context) => const NewNote()));
-      //   },
-      //   child: const Icon(Icons.add),
-      // ),
     );
   }
   Widget _buildOption({
