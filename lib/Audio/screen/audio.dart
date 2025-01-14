@@ -43,28 +43,32 @@ class _AudioState extends State<Audio> {
       ),
       body:Column(
         children: [
-          Padding(
-            padding:EdgeInsets.only(top: screenHeight*0.05, left: screenWidth*0.40,right: screenWidth*0.25,bottom: screenHeight*0.2) ,
-           
-            child: IconButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> const Recording()));
+          Center(
+            child: Padding(
+              padding:EdgeInsets.only(top: screenHeight*0.15, 
+              // left: screenWidth*0.40,right: screenWidth*0.25,bottom: screenHeight*0.2
+              ) ,
              
-              },
-              icon: const Icon(Icons.mic,size:248,),
-            )
-            ),
-            Container(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                 ListView.builder(itemBuilder: (context,index){
-                  
-                 }), 
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const Recording()));
+               
+                },
+                icon: const Icon(Icons.mic,size:248,),
+              )
+              ),
+          ),
+            // Container(
+            //   child: SingleChildScrollView(
+            //     child: Column(
+            //       children: [
+            //      ListView.builder(itemBuilder: (context,index){
 
-                ],),
-               ),
-            ),
+            //      }), 
+
+            //     ],),
+            //    ),
+            // ),
           
           
         ],)

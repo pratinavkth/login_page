@@ -12,7 +12,7 @@ class Recording extends StatefulWidget {
 }
 
 class _RecordingState extends State<Recording> {
-  final AudioRecorder audioRecorder = AudioRecorder();
+  final Record audioRecorder = Record();
   bool isRecording = false;
   String? audioPath;
 
@@ -76,7 +76,7 @@ class _RecordingState extends State<Recording> {
                   if(await audioRecorder.hasPermission()){
                     final directory = await getApplicationDocumentsDirectory();
                     audioPath= '${directory.path}/recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
-                    await audioRecorder.start(const RecordConfig(),path: audioPath!); 
+                    await audioRecorder.start(path: audioPath!); 
                     setState(() {
                       isRecording =true; 
                     });
