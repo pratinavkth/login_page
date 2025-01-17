@@ -25,9 +25,7 @@ class NoteService{
         title: title,
         content: content,
         date: Date,
-        userId:userId!,
-
-        
+        userId:userId!,        
         );
         print(createNote.toJson());
 
@@ -36,29 +34,23 @@ class NoteService{
           body: createNote.toJson(),
           headers: <String,String>{
             'Content-Type':'application/json; charset=UTF-8',
-            'x-auth-token': token,
-          
+            'x-auth-token': token,   
           }
         );
-
         print(res.body);
         if (res.statusCode ==200) {
           const SnackBar(content: Text('Note added successfully'));
-
-          
         }else{
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Failed to add note'),
             )
-          );
-       
+          );       
         }
     }
     }
     catch(e){
       print(e);
     }
-  }
-  
+  }  
 }

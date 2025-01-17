@@ -135,4 +135,7 @@ catch(e){
 noteCreate.get('/test-middleware', authcheck, (req, res) => {
     res.json({ message: "Middleware is working!", userId: req.user });
 });
+
+
+
 module.exports = noteCreate;
