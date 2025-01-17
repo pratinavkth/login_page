@@ -17,7 +17,7 @@ expenseRouter.post('/api/createexpense',authcheck,async(req,res)=>{
             description,
             category,
             userId,
-            Date:new Date(),
+            date,
         });
         console.log(expnese);
         expnese = await expnese.save();
@@ -35,22 +35,44 @@ expenseRouter.post('/api/createexpense',authcheck,async(req,res)=>{
     }
 });
 
-expenseRouter.put('/api/updateexpense',async(req,res)=>{
+expenseRouter.put('/api/updateexpense',authcheck,async(req,res)=>{
     try{
-        const{description,category,amount,expenseId}= req.body;
+        const{description,category,amount,expenseId,date}= req.body;
         if(!expenseId){
             res.status(400).send({message:"id is not found"});
 
         }
         const expense= await Expense.findById({expenseId});
+        if(description)expense.description = description;
+        if(category)expense.category = category;
+        if(amount)expense.amount= amount;
+        if(date)expense.date= date;
 
+        await expense.save();
         console.log(expense);
+
+        return res.status(200).send({message:"note updatd sucessfully"});
+
 
     }
     catch(e){
-        print(e);
+        res.status(500).send({e:"Internal server error"});
     }
 
 });
+
+expenseRouter.delete('/api/deleteexpense',authcheck,async(req,res)=>{
+    try{
+        const expenseId = req.body.expenseId;
+        if(!expenseId){
+            return res.status(400).send({messa})
+        }
+
+    }
+    catch(e){
+        res.status(500).send({e:"Intenal server error"});
+    }
+});
+
 
 module.exports= expenseRouter;

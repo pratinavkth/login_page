@@ -15,7 +15,7 @@ const expenseSchema = mongoose.Schema({
     },
     date:{
         type:Date,
-        default:Date.now,
+        // default:Date.now,
     },
     userId:{
         type:mongoose.Schema.Types.ObjectId,
