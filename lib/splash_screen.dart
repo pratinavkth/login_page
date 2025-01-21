@@ -33,11 +33,11 @@ class SplashScreen extends StatelessWidget{
               bool isLoggedin = snapshot.data ?? false;
               if(isLoggedin){
                 // Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>const Homescreen()));
-                return Homescreen();
+                return const Homescreen();
               }
               else{
                 // Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>const Signup()));
-                return Signup();
+                return const Signup();
               }
             }
 

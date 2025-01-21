@@ -7,10 +7,6 @@ import 'package:http/http.dart'as http;
 class DeleteNotes{
   Future<List<Notes>>deletenotes({
     required BuildContext context,
-    String? title,
-    String? content,
-    String? Date,
-    
 
 
   })async{

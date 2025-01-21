@@ -108,7 +108,7 @@ AudioRouter.get('/api/getaudio',authcheck,async(req,res)=>{
     }
 })
 
-AudioRouter.get('/api/allaudios', authcheck,async(req,res)=>{
+AudioRouter.post('/api/allaudios', authcheck,async(req,res)=>{
     try{
         const userId = req.user;
         console.log(userId);

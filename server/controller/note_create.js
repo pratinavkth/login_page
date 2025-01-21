@@ -1,3 +1,4 @@
+const multer = require("multer");
 const express = require("express");
 const NewNote = require('../models/new_note');
 const User = require('../models/user');
@@ -7,12 +8,37 @@ const noteCreate = express.Router();
 console.log("Note Create Intercepted");
 noteCreate.use(authcheck);
 
+const Storage = multer.diskStorage({
+    destination:function (req,file,cb){
+        cb(null,'uploads/');
+    },
+    filename: function(req,file,cb){
+        const uniqueName = Date.now() + '-' +file.originalname;
+        cb(null,uniqueName);
+    },
+});
+
+const upload = multer({
+    storage:Storage,
+    fileFilter:function (req,file,cb){
+        const fileTypes ="/jpeg|jpg|png";
+        const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+        const mimeType = fileTypes.test(file.mimetype);
+        if(extname && mimeType){
+            cb(null,true);
+        }else{
+            cb(new Error('only images are allowed'));
+        }
+    }
+})
+
 noteCreate.post('/api/note_create',authcheck,async(req,res)=>{
     try {
         const {title,content} = req.body;
         const userId = req.user;
         console.log(req.body);
         console.log("User ID:",userId);
+        const imagePath = req.file ? req.file.path : null;
 
         if(!userId){
             return res.status(400).json({message:"user ID not found please log in"});
@@ -22,6 +48,7 @@ noteCreate.post('/api/note_create',authcheck,async(req,res)=>{
             content,
             userId,
             Date:new Date(),
+            image:imagePath,
         });
         note = await note.save();
         const user = await User.findById(userId);

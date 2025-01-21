@@ -67,7 +67,7 @@ class _NewNoteState extends State<NewNote> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Icon(Icons.close),
+                child: const Icon(Icons.close),
               )
             else
               Row(
@@ -75,7 +75,7 @@ class _NewNoteState extends State<NewNote> {
                 children: [
                   TextButton(
                     onPressed: () {},
-                    child: Icon(Icons.more_horiz),
+                    child: const Icon(Icons.more_horiz),
                   ),
                   TextButton(
                     onPressed: (){

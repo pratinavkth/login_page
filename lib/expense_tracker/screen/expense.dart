@@ -9,9 +9,20 @@ class Expense extends StatefulWidget {
 }
 
 class _ExpenseState extends State<Expense> {
-  final TextEditingController amountController = TextEditingController();
-  final TextEditingController categoryController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+  
+  final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _categoryController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  @override
+  void dispose() {
+    _amountController.dispose();
+    _categoryController.dispose();
+    _descriptionController.dispose();
+    _dateController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +44,7 @@ class _ExpenseState extends State<Expense> {
                     onPressed: () {},
                     icon: Image.asset("assets/logo_noteit.png")),
               ),
-              Spacer(),
+              const Spacer(),
               IconButton(
                 onPressed: () {
                   // showSearch(context: context, delegate: Searchbar());
@@ -51,7 +62,7 @@ class _ExpenseState extends State<Expense> {
             child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(top: screenHeight * 0.1,right: screenWidth *0.3),
+              padding: EdgeInsets.only(top: screenHeight * 0.1,right: screenWidth *0.2,left: screenWidth*0.2),
               child: Column(
                 children: [
                   
@@ -60,10 +71,14 @@ class _ExpenseState extends State<Expense> {
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 24,
+                      fontWeight: FontWeight.w900
                     ),
                   ),
                   Container(
-                    height: screenHeight * 0.2,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    height: screenHeight * 0.1,
                     width: screenWidth * 0.5,
                     child: Row(
                       children: [
@@ -75,9 +90,9 @@ class _ExpenseState extends State<Expense> {
                         Expanded(
                           child: TextField(
                             keyboardType: TextInputType.number,
-                            controller: amountController,
+                            controller: _amountController,
                             decoration: const InputDecoration(
-                              hintText: '0.00',
+                              hintText: ' 0.00',
                               hintStyle: TextStyle(
                                 fontSize: 25,
                               ),
@@ -96,7 +111,6 @@ class _ExpenseState extends State<Expense> {
               child: Container(
                 height: screenHeight * 0.2,
                 width: screenWidth * 0.8,
-               
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(10),
@@ -105,37 +119,64 @@ class _ExpenseState extends State<Expense> {
                 child: Column(
                   children: [
                     TextField(
-                      controller: descriptionController,
+                      controller: _descriptionController,
+                      enableInteractiveSelection: false,
+                      minLines: 1,
                       style: const TextStyle(
                         color: Colors.white,
+                        
                       ),
                       decoration: const InputDecoration(
-                        hintText: 'Description',
-                        hintStyle: TextStyle(
+                        // hintText: 'Description',
+                        labelText: "  Description",
+                        labelStyle: TextStyle(
+                          
                           color: Colors.white,
                         ),
                       ),
                     ),
                     TextField(
-                      controller: categoryController,
+                      controller: _categoryController,
+                      enableInteractiveSelection: false,
                       style: const TextStyle(
                         color: Colors.white,
                       ),
                       decoration: const InputDecoration(
-                        hintText: 'Category',
-                        hintStyle: TextStyle(
+                        labelText: '  Category',
+                        labelStyle: TextStyle(
                           color: Colors.white,
                         ),
                       ),
                     ),
+                    TextField(
+                      controller: _dateController,
+                      readOnly: true,
+                      enableInteractiveSelection: false,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.date_range_outlined,
+                          color: Colors.white,
+                          ),
+                        labelText: '  Date',
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onTap: (){
+                        _selectDate();
+                      },
+                    ),
                   ],
                 ),
               ),
+              
             ),
             Padding(
-              padding: EdgeInsets.only(top: screenHeight * 0.1),
+              padding: EdgeInsets.only(top: screenHeight * 0.1,left: screenWidth*0.1),
               child: ElevatedButton(
+                
                   onPressed: () {
+                    print("Button pressed");
                     Navigator.push(context, MaterialPageRoute(builder: (context) {
                       return const ExpensesHomePage();
                     }));
@@ -146,9 +187,29 @@ class _ExpenseState extends State<Expense> {
                   child: const Text(
                     'Add Expense',
                     style: TextStyle(color: Colors.white, fontSize: 20),
-                  )),
-            )
-          ],
-        )));
+                  ),
+                  
+                  ),
+                  
+            ),
+          ],         
+        ),
+        
+        ),
+        );
+        
   }
+  Future<void>_selectDate()async{
+         DateTime? picked =await showDatePicker(
+            context: context, 
+            firstDate: DateTime(2020), 
+            lastDate: DateTime.now(),
+            );
+            if(picked != null){
+              setState(() {
+                _dateController.text = picked.toString().split(" ")[0];
+                });
+            }
+        }
+
 }

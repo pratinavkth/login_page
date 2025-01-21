@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { link } = require('../controller/expense');
 
 const newNoteSchema = mongoose.Schema({
     title:{
@@ -11,6 +12,10 @@ const newNoteSchema = mongoose.Schema({
     Date:{
         type:Date,
         default:Date.now
+    },
+    ImageUrl:{
+        type:String,
+        default:link,
     },
     userId:{
         type:mongoose.Schema.Types.ObjectId,
