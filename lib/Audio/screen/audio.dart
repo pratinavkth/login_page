@@ -17,11 +17,11 @@ class _AudioState extends State<Audio> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    futreaudio = audioService.fetchallAudio(context: context);
     super.initState();
+    futreaudio = audioService.fetchallAudio(context: context);
+    
   }
-
+  @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
@@ -40,7 +40,7 @@ class _AudioState extends State<Audio> {
                     onPressed: () {},
                     icon: Image.asset("assets/logo_noteit.png")),
               ),
-              Spacer(),
+              const Spacer(),
               IconButton(
                 onPressed: () {
                   // showSearch(context: context, delegate: Searchbar());
@@ -88,26 +88,36 @@ class _AudioState extends State<Audio> {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(
-                      child: Text('Error${snapshot.hasError}'),
+                      
+                      child: Text('Error${snapshot.hasError}',
+                      style: TextStyle(fontSize: 18, color: Colors.red)
+                      ),
                     );
                   } else if (snapshot.hasData) {
                     List<Audios> audio = snapshot.data!;
+                    print("no audio there is no issue");
                     return Container(
-                      height: screenHeight * 0.4,
+                      height: screenHeight * 0.3,
+                      
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.5),
+                        color: Colors.black.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ListView.builder(
+                      
+                        child:ListView.builder(
+                          
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
                                 itemCount: audio.length,
                                 itemBuilder: (context, index) {
                                   return Card(
                                     child: ListTile(
-                                      leading: const Icon(Icons.audio_file),
-                                      title: Text(audio[index].fileName),
+                                      // textColor: Colors.black,
+                                      leading: const Icon(Icons.audio_file,color: Colors.black,),
+                                      title: Text(audio[index].fileName,
+                                      style:const TextStyle(fontSize: 18, color: Color.fromARGB(255, 218, 39, 39)),
+                                      )
+                                      ,
                                       subtitle: Text(audio[index].uploadedAt),
                                       trailing: IconButton(
                                         icon: const Icon(Icons.more_horiz),
@@ -116,10 +126,9 @@ class _AudioState extends State<Audio> {
                                     ),
                                   );
                                 }),
-                          ],
-                        ),
-                      ),
+                                
                     );
+                    
                   } else {
                     return const Text('no audio available');
                   }

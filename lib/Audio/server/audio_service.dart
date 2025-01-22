@@ -71,20 +71,21 @@ class AudioService{
   })async{
     try{
       SharedPreferences pref =await SharedPreferences.getInstance();
-      String? token = pref.getString('token');
+      String? token = pref.getString('x-auth-token');
       String? userId = pref.getString('user');
       if(token!= null){
         Map<String,dynamic> bodyres={
           'userId':userId
           };
         http.Response res = await http.post(
-          Uri.parse('$uri/api/allauido'),
+          Uri.parse('$uri/api/allaudios'),
           body: json.encode(bodyres),
           headers: <String,String>{
             'Content-Type':'application/json',
             'x-auth-token':token,
           },
         );
+        print(res.statusCode);
         if(res.statusCode == 200){
           var jsonData = jsonDecode(res.body);
           var audioData = jsonData['files'];
@@ -98,7 +99,7 @@ class AudioService{
           }
         }
       }else{
-
+        print('Error fetching audio');
       }
     }
     catch(e){

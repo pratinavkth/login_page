@@ -33,9 +33,7 @@ class _ExpenseState extends State<Expense> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(screenHeight * 0.05),
           child: AppBar(
-            // elevation: 0.1,
             shape: const Border(bottom: BorderSide(color: Colors.grey)),
-            // title: const Text('Search Notes'),
             backgroundColor: Colors.white,
             actions: [
               Padding(
@@ -45,12 +43,13 @@ class _ExpenseState extends State<Expense> {
                     icon: Image.asset("assets/logo_noteit.png")),
               ),
               const Spacer(),
-              IconButton(
-                onPressed: () {
-                  // showSearch(context: context, delegate: Searchbar());
-                },
-                icon: const Icon(Icons.search),
-              ),
+              // IconButton(
+              // IconButton(
+              //   onPressed: () {
+              //     // showSearch(context: context, delegate: Searchbar());
+              //   },
+              //   icon: const Icon(Icons.search),
+              // ),
               IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.account_circle_outlined),
@@ -58,8 +57,10 @@ class _ExpenseState extends State<Expense> {
             ],
           ),
         ),
-        body: SafeArea(
-            child: Column(
+        body: 
+        SafeArea(
+            child: 
+            Column(
           children: [
             Padding(
               padding: EdgeInsets.only(top: screenHeight * 0.1,right: screenWidth *0.2,left: screenWidth*0.2),
@@ -74,12 +75,7 @@ class _ExpenseState extends State<Expense> {
                       fontWeight: FontWeight.w900
                     ),
                   ),
-                  Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    height: screenHeight * 0.1,
-                    width: screenWidth * 0.5,
+                  Center(
                     child: Row(
                       children: [
                         const Text(
@@ -89,8 +85,11 @@ class _ExpenseState extends State<Expense> {
                         ),
                         Expanded(
                           child: TextField(
-                            keyboardType: TextInputType.number,
+                            // focusNode: FocusNode(),    
+                            onTap: null,                  
+                            // keyboardType: TextInputType.number,
                             controller: _amountController,
+                            // enableInteractiveSelection: true,
                             decoration: const InputDecoration(
                               hintText: ' 0.00',
                               hintStyle: TextStyle(
@@ -106,8 +105,11 @@ class _ExpenseState extends State<Expense> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: screenHeight * 0.1, left: screenWidth * 0.1, right: screenWidth * 0.1),
-              
+              padding: EdgeInsets.only(
+                top: screenHeight * 0.1, 
+                left: screenWidth * 0.1, 
+                right: screenWidth * 0.1
+                ),            
               child: Container(
                 height: screenHeight * 0.2,
                 width: screenWidth * 0.8,
@@ -120,7 +122,7 @@ class _ExpenseState extends State<Expense> {
                   children: [
                     TextField(
                       controller: _descriptionController,
-                      enableInteractiveSelection: false,
+                      enableInteractiveSelection: true,
                       minLines: 1,
                       style: const TextStyle(
                         color: Colors.white,
@@ -128,28 +130,41 @@ class _ExpenseState extends State<Expense> {
                       ),
                       decoration: const InputDecoration(
                         // hintText: 'Description',
+                        prefixIcon: Icon(Icons.description,
+                        color: Colors.white,
+                        ),
+                        iconColor: Colors.white,
                         labelText: "  Description",
                         labelStyle: TextStyle(
-                          
                           color: Colors.white,
                         ),
                       ),
                     ),
+                    SizedBox(height: screenHeight * 0.01),
                     TextField(
                       controller: _categoryController,
-                      enableInteractiveSelection: false,
+                      enableInteractiveSelection: true,
+                      
                       style: const TextStyle(
                         color: Colors.white,
                       ),
                       decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.category,
+                        color: Colors.white
+                        ,
+                        ),
                         labelText: '  Category',
                         labelStyle: TextStyle(
                           color: Colors.white,
                         ),
                       ),
                     ),
+                    SizedBox(height: screenHeight*0.01,),
                     TextField(
                       controller: _dateController,
+                      style:const TextStyle(
+                        color: Colors.white,
+                      ),
                       readOnly: true,
                       enableInteractiveSelection: false,
                       decoration: const InputDecoration(
@@ -168,13 +183,13 @@ class _ExpenseState extends State<Expense> {
                     ),
                   ],
                 ),
-              ),
-              
+              ), 
             ),
             Padding(
-              padding: EdgeInsets.only(top: screenHeight * 0.1,left: screenWidth*0.1),
-              child: ElevatedButton(
-                
+              padding: EdgeInsets.only(top: screenHeight * 0.1,left: screenWidth*0.1,right: screenWidth*0.1),
+              child: Center(
+                child: 
+              ElevatedButton(   
                   onPressed: () {
                     print("Button pressed");
                     Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -191,6 +206,7 @@ class _ExpenseState extends State<Expense> {
                   
                   ),
                   
+            ),
             ),
           ],         
         ),
