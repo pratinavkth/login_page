@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_page/expense_tracker/screen/expenses_home_page.dart';
+import 'package:login_page/expense_tracker/service/expense_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Expense extends StatefulWidget {
   const Expense({Key? key}) : super(key: key);
@@ -16,12 +18,40 @@ class _ExpenseState extends State<Expense> {
   final TextEditingController _dateController = TextEditingController();
   @override
   void dispose() {
+    print("dispose initiated");
     _amountController.dispose();
     _categoryController.dispose();
     _descriptionController.dispose();
     _dateController.dispose();
-    // TODO: implement dispose
     super.dispose();
+  }
+
+  Future<void>saveData()async {
+    final String amountu = _amountController.text;
+    final String descriptionu = _descriptionController.text;
+    final String categoryu = _categoryController.text;
+    final String dateu = _dateController.text;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String?userId =prefs.getString('user');
+    if(userId ==null){
+      print("user id is null");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("User id is null"))
+      );
+    }
+
+    if (amountu.isNotEmpty || dateu.isNotEmpty) {
+      await ExpenseService().addExpense(
+          context: context,
+          amount: amountu,
+          description: descriptionu,
+          category: categoryu,
+          date: dateu);
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("amount and the date is empty"))
+    );
   }
 
   @override
@@ -43,13 +73,6 @@ class _ExpenseState extends State<Expense> {
                     icon: Image.asset("assets/logo_noteit.png")),
               ),
               const Spacer(),
-              // IconButton(
-              // IconButton(
-              //   onPressed: () {
-              //     // showSearch(context: context, delegate: Searchbar());
-              //   },
-              //   icon: const Icon(Icons.search),
-              // ),
               IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.account_circle_outlined),
@@ -66,7 +89,6 @@ class _ExpenseState extends State<Expense> {
               padding: EdgeInsets.only(top: screenHeight * 0.1,right: screenWidth *0.2,left: screenWidth*0.2),
               child: Column(
                 children: [
-                  
                   const Text(
                     'How Much ?',
                     style: TextStyle(
@@ -86,8 +108,11 @@ class _ExpenseState extends State<Expense> {
                         Expanded(
                           child: TextField(
                             // focusNode: FocusNode(),    
-                            onTap: null,                  
+                            // onTap: null,
                             // keyboardType: TextInputType.number,
+                            onTap: (){
+                              print("print amount");
+                            },
                             controller: _amountController,
                             // enableInteractiveSelection: true,
                             decoration: const InputDecoration(
@@ -191,6 +216,7 @@ class _ExpenseState extends State<Expense> {
                 child: 
               ElevatedButton(   
                   onPressed: () {
+                    saveData();
                     print("Button pressed");
                     Navigator.push(context, MaterialPageRoute(builder: (context) {
                       return const ExpensesHomePage();

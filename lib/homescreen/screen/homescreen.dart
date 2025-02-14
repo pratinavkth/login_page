@@ -30,15 +30,21 @@ class _HomescreenState extends State<Homescreen> {
     return Scaffold(
       body: _Screens[_currentIndex],
       bottomNavigationBar: Container(
-        color: Color(0xFFFFFFFF),
+        decoration: const BoxDecoration(
+          border: Border(top: BorderSide(width:1)),
+              color: Color(0xFFFFFFFF),
+        ),
+        // color: const Color(0xFFFFFFFF),
+
         child: Padding(
           padding: EdgeInsets.symmetric(
-              vertical: screenHeight * 0.01, horizontal: screenWidth * 0.02),
+              vertical: screenHeight * 0.001, horizontal: screenWidth * 0.02),
           child: GNav(
-            backgroundColor: Color(0xFFFFFFFF),
-            color: Color(0xFF000000),
-            activeColor: Color(0xFF000000),
-            tabBackgroundColor: Color(0xFFFFFFFF),
+            // tabBorder: Border(top: BorderSide(width: 2)),
+            backgroundColor: const Color(0xFFFFFFFF),
+            color: const Color(0xFF000000),
+            activeColor: const Color(0xFF000000),
+            tabBackgroundColor: const Color(0xFFFFFFFF),
             gap: screenWidth * 0.02,
             onTabChange: (index) {
               setState(() {

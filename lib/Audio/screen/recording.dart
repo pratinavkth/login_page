@@ -36,28 +36,41 @@ class _RecordingState extends State<Recording> {
                 Container(
                   height: screenHeight * 0.1,
                   width: screenWidth * 0.2,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: const Color(0xff0000000),
+                    color:  Color(0xFF0000000),
                   ),
                   child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.mic_none_outlined),
+                    onPressed: () async{
+                      if(isRecording){
+                        const Icon(Icons.stop,color: Colors.white,
+                        );
+                        await _stopRecording();
+                      }
+                      else if(!isRecording){
+                        const Icon(Icons.play_arrow,color: Colors.white,);
+                        await _startRecording();
+                      }
+                    },
+                    icon: 
+                    const Icon(Icons.mic_none_outlined,
+                    color: Colors.white,
+                    ),
                     iconSize: 48,
                   ),
                 ),
                 Container(
                   height: screenHeight * 0.1,
                   width: screenWidth * 0.2,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: const Color(0xfffffffff),
+                    color:  Color(0xFFFFFFFF),
                   ),
                   child: IconButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                   ),
                 ),
               ],
@@ -67,7 +80,7 @@ class _RecordingState extends State<Recording> {
             padding: EdgeInsets.only(top: screenHeight * 0.1),
             child: TextButton(
               onPressed: () async{
-                if(isRecording){
+                if(isRecording){   
                   setState(() {
                     isRecording =false;
                   });
@@ -82,12 +95,9 @@ class _RecordingState extends State<Recording> {
                     });
                   }
                 }
-
               },
               style: TextButton.styleFrom(
-                // primary: Colors.white,
                 backgroundColor: Colors.black,
-                // onSurface: Colors.grey,
               ),
               child: const Text(
                 'Start New Recording',
@@ -109,6 +119,13 @@ class _RecordingState extends State<Recording> {
     }else{
       // awai
     }
+  }
+
+  Future<void> _stopRecording()async{
+    await audioRecorder.stop();
+  }
+  Future<void> _startRecording()async{
+    await audioRecorder.start();
   }
   
 }
