@@ -7,6 +7,7 @@ import 'package:login_page/notes/screen/new_note.dart';
 import 'package:login_page/notes/server/delete_note_service.dart';
 import 'package:login_page/notes/server/notes_fetching.dart';
 import 'package:login_page/profile/profileScreen/profilescreen.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../constants/searchbar.dart';
 
@@ -88,11 +89,14 @@ class _NotesState extends State<Notes> {
   }
 
   void _sharedNote() {
-    setState(() {
-      List<String> seleectedItemss =
-          selectedIndexes.map((index) => notes[index]).cast<String>().toList();
-      //
-    });
+    if(selectedIndexes.isEmpty) return;
+
+    String shareContent = selectedIndexes.map((index){
+      return "Title :${notes[index].title} \n\n${notes[index].content}";
+
+    }).join("\n\n--------\n\n");
+
+    Share.share(shareContent);
   }
 
   @override
@@ -129,8 +133,8 @@ class _NotesState extends State<Notes> {
                         },
                         icon: const Icon(Icons.delete)),
                     IconButton(
-                        onPressed: () {
-                          _sharedNote();
+                        onPressed: ()  {
+                           _sharedNote();
                         },
                         icon: const Icon(Icons.share)),
                   ],

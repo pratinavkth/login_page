@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login_page/Audio/server/audio_service.dart';
+import 'package:share_plus/share_plus.dart';
 import 'recording.dart';
 import 'package:login_page/Audio/models/audio_model.dart';
 
@@ -121,7 +122,9 @@ class _AudioState extends State<Audio> {
                                       subtitle: Text(audio[index].uploadedAt),
                                       trailing: IconButton(
                                         icon: const Icon(Icons.more_horiz),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          _popupMenuButton;
+                                        },
                                       ),
                                     ),
                                   );
@@ -138,3 +141,33 @@ class _AudioState extends State<Audio> {
         ));
   }
 }
+enum Menu { share, delete }
+
+
+Widget _popupMenuButton(BuildContext context){
+  // enum Menu=[]
+  return PopupMenuButton(itemBuilder: (BuildContext context)=><PopupMenuEntry<Menu>>[
+    PopupMenuItem<Menu>(
+      value: Menu.share,
+        child: ListTile(
+          leading: const Icon(Icons.share),
+          title: const Text('Share'),
+          onTap: ()async{
+
+          },
+        )),
+      PopupMenuItem<Menu>(
+      value: Menu.delete,
+        child: ListTile(
+          leading: Icon(Icons.delete),
+          title: Text('Delete'),
+          onTap: ()async{
+            // Share.shareXFiles();
+            await AudioService().deleteAudio(context: context);
+          },
+        )),
+
+  ]);
+
+}
+

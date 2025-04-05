@@ -55,6 +55,7 @@ dependencies:
   # flutter_sound: ^9.18.0
   audioplayers: ^6.1.0
   image_picker: ^1.1.2
+  share_plus: ^10.1.4
   # record: ^5.1.2
 
 dev_dependencies:

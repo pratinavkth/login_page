@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:login_page/Audio/server/audio_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import 'package:audioplayers/audioplayers.dart'; // Add this package for playback
@@ -33,7 +36,6 @@ class _RecordingState extends State<Recording> {
     return Scaffold(
       body: Column(
         children: [
-
           SizedBox(
             height: screenHeight * 0.2,
           ),
@@ -86,24 +88,25 @@ class _RecordingState extends State<Recording> {
                   child: IconButton(
                     onPressed: audioPath != null
                         ? () async {
-                      if (isPlaying) {
-                        await audioPlayer.stop();
-                        setState(() {
-                          isPlaying = false;
-                        });
-                      } else {
-                        await audioPlayer.play(DeviceFileSource(audioPath!));
-                        setState(() {
-                          isPlaying = true;
-                        });
-                        // Listen for playback completion
-                        audioPlayer.onPlayerComplete.listen((event) {
-                          setState(() {
-                            isPlaying = false;
-                          });
-                        });
-                      }
-                    }
+                            if (isPlaying) {
+                              await audioPlayer.stop();
+                              setState(() {
+                                isPlaying = false;
+                              });
+                            } else {
+                              await audioPlayer
+                                  .play(DeviceFileSource(audioPath!));
+                              setState(() {
+                                isPlaying = true;
+                              });
+                              // Listen for playback completion
+                              audioPlayer.onPlayerComplete.listen((event) {
+                                setState(() {
+                                  isPlaying = false;
+                                });
+                              });
+                            }
+                          }
                         : null,
                     icon: Icon(
                       isPlaying ? Icons.pause : Icons.play_arrow,
@@ -176,7 +179,8 @@ class _RecordingState extends State<Recording> {
     if (await audioRecorder.hasPermission()) {
       // Create a new file path for each recording
       final directory = await getApplicationDocumentsDirectory();
-      audioPath = '${directory.path}/recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
+      audioPath =
+          '${directory.path}/recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
 
       await audioRecorder.start(const RecordConfig(), path: audioPath!);
       setState(() {
@@ -194,6 +198,7 @@ class _RecordingState extends State<Recording> {
 
       // Handle the recorded file
       await handleRecording(audioPath!);
+      print("recording Habdel");
     }
   }
 
@@ -201,9 +206,11 @@ class _RecordingState extends State<Recording> {
     final connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.none) {
       print('Offline: File saved locally at $filePath');
-      // You can add code here to store the file path to upload later
     } else {
+      await AudioService()
+          .addAudio(context: context, audioFile: File(audioPath!));
       print('Online: File saved at $filePath');
+      // onlinesave.
       // You can add code here to upload the file to your server
       // For example: await uploadService.uploadAudio(filePath);
     }

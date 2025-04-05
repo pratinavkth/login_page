@@ -59,36 +59,45 @@ Widget displayImage(XFile?image ){
         builder: (BuildContext context){
           return AlertDialog(
             title: const Text("Select the image source"),
-            content: Row(
+            // content:
+            actions: [
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
+                  style:const  ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(Colors.cyanAccent)
+                  ),
                     onPressed: (){
                       Navigator.pop(context);
                       _pickeImageCamera();
                       },
                     child:const Column(
                       children: [
-                        Icon(Icons.camera),
-                        Text("Camera"),
+                        Icon(Icons.camera,size: 20,),
+                        Text("Camera",style: TextStyle(fontSize: 20),),
                       ],
                     ),
                 ),
                 ElevatedButton(
+                    style:const  ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(Colors.cyanAccent)
+                    ),
                     onPressed: (){
                       Navigator.pop(context);
                       _pickImageGallery();
                       },
                     child:const Column(
                       children: [
-                        Icon(Icons.photo_library_outlined),
-                        Text("Gallery"),
+                        Icon(Icons.photo_library_outlined,size: 20,),
+                        Text("Gallery",style: TextStyle(fontSize: 20),),
                       ],
                     )
                 ),
 
               ],
             ),
+          ],
           );
         }
     );
