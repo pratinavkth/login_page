@@ -1,4 +1,4 @@
-import 'dart:convert';
+// import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
@@ -43,7 +43,12 @@ class _DrawingState extends State<Drawing> {
       );
     });
   }
-
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _drawingController.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -93,10 +98,9 @@ class _DrawingState extends State<Drawing> {
             child: DrawingBoard(
               controller: _drawingController,
               background: Container(
-
                 height: screenHeight,
                 width: screenWidth,
-                color: const Color.fromARGB(255, 227, 221, 221), // Background color
+                color: const Color.fromARGB(255, 231, 231, 231), // Background color
               ),
               showDefaultActions: true,
               showDefaultTools: true,
@@ -106,8 +110,8 @@ class _DrawingState extends State<Drawing> {
       ),
     );
   }
-  Future<void> _getJsonList() async{
-  print(const JsonEncoder.withIndent('').convert(_drawingController.getJsonList()));
-}
+//   Future<void> _getJsonList() async{
+//   print(const JsonEncoder.withIndent('').convert(_drawingController.getJsonList()));
+// }
 }
 

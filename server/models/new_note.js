@@ -15,7 +15,7 @@ const newNoteSchema = mongoose.Schema({
     },
     ImageUrl:{
         type:String,
-        default:link,
+        default:null,
     },
     userId:{
         type:mongoose.Schema.Types.ObjectId,

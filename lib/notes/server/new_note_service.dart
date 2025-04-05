@@ -16,7 +16,7 @@ class NoteService{
     try{
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('x-auth-token');
-          //  String? token = prefs.getString('x-auth-token');
+           // String? token = prefs.getString('x-auth-token');
       String? userId = prefs.getString('user');
       print(token);
 

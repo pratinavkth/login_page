@@ -15,12 +15,25 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
+  void initState() {
+    super.initState();
+    print("MyApp  Home Initialized");
+  }
+  PageController _pageController = PageController();
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   int _currentIndex = 0;
   final List<Widget> _Screens = [
     // HomeScreen(),
-    Notes(),
-    Audio(),
-    Expense(),
+
+    const Notes(),
+    const Audio(),
+    const Expense(),
+
     
   ];
   @override
@@ -28,7 +41,17 @@ class _HomescreenState extends State<Homescreen> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: _Screens[_currentIndex],
+      body:
+      PageView(
+      controller: _pageController,
+      physics: const NeverScrollableScrollPhysics(),
+      children: _Screens,
+      onPageChanged: (index){
+        setState(() {
+          _currentIndex=index;
+        });
+    },
+      ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           border: Border(top: BorderSide(width:1)),
@@ -47,6 +70,7 @@ class _HomescreenState extends State<Homescreen> {
             tabBackgroundColor: const Color(0xFFFFFFFF),
             gap: screenWidth * 0.02,
             onTabChange: (index) {
+              _pageController.jumpToPage(index);
               setState(() {
                 _currentIndex = index;
               });

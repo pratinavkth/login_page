@@ -31,14 +31,17 @@ class SplashScreen extends StatelessWidget{
             }
             else if(snapshot.hasData ){
               bool isLoggedin = snapshot.data ?? false;
-              if(isLoggedin){
-                // Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>const Homescreen()));
-                return const Homescreen();
-              }
-              else{
-                // Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>const Signup()));
-                return const Signup();
-              }
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (isLoggedin) {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => const Homescreen())
+                  );
+                } else {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => const Signup())
+                  );
+                }
+              });
             }
 
             else if(snapshot.hasError){

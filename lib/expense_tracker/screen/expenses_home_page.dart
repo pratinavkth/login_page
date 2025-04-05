@@ -9,6 +9,7 @@ class ExpensesHomePage extends StatefulWidget {
 }
 
 class _ExpensesHomePageState extends State<ExpensesHomePage> {
+  @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;

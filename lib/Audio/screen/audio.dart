@@ -90,7 +90,7 @@ class _AudioState extends State<Audio> {
                     return Center(
                       
                       child: Text('Error${snapshot.hasError}',
-                      style: TextStyle(fontSize: 18, color: Colors.red)
+                      style: const TextStyle(fontSize: 18, color: Colors.red)
                       ),
                     );
                   } else if (snapshot.hasData) {

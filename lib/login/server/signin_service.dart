@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:login_page/global_variable.dart';
-import 'package:login_page/login/screens/login.dart';
+// import 'package:login_page/login/screens/login.dart';
 import 'package:login_page/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';

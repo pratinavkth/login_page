@@ -2,6 +2,13 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+
+    }
+
+    tasks.withType(JavaCompile) {
+        options.compilerArgs += ["-Xlint:-options"]
+        // OR
+        // options.compilerArgs -= ["-Werror"]
     }
 }
 
